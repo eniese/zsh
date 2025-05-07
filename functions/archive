@@ -1,0 +1,17 @@
+archive() {
+    full=$1
+    [ ! -d "$full" ] && return 1
+    namedir=$full:t
+    namepath=$full:h
+    cdir=$PWD
+    [ "$full" != "$namedir" ] && cd "$namepath"
+    timestamp=$(date "+%Y%m%d-%H%M%S")
+    namearch="${namedir}-${timestamp}.tgz"
+    print -u 2 "Archive $namedir to ${namepath}/${namearch}"
+    tar -c -z --exclude-vcs -f "${namearch}" "${namedir}"
+    res=$?
+    cd "$cdir"
+    return $res
+}
+
+

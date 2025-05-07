@@ -1,0 +1,5 @@
+uDE=$'\U203C'
+uLB=$'\U00AB'
+uRB=$'\U00BB'
+uCR=$'\U000A'
+uPROMPT=$'\U25BA'

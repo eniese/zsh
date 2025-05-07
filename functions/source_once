@@ -1,0 +1,30 @@
+# this function expects only a filename, not a path
+# the file must be present in the directory"$ZENV"
+# Returns:
+#   0 - file is sourced succesfully (was not sourced before)
+#   1 - file was already sourced
+#   2 - error occurred during sourcing of the file
+#   3 - file does not exist, ERROR printed to STDERR
+source_once() {
+    file=$1
+    filename=${file//./_}
+    file="${ZENV}/${file}" 
+    eval "flag=\${__inc_$filename}"
+    if [ -z "${flag}" ]; then
+        if [ -f "${file}" ]; then
+            . "${file}"
+            if [ "$?" -eq 0 ]; then
+                eval "__inc_${filename}='${filename}'"
+                return 0
+            else
+                return 2
+            fi
+        else
+            print -u 2 "${fRED}[ERROR]${cRESET} File not found: '$file'"
+            return 3
+        fi
+    else
+        print -u 2 "Already sourced: $file"
+        return 1
+    fi
+}

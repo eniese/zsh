@@ -1,0 +1,9 @@
+# This function lists which files have been loaded using "source_once"
+sourced() {
+    eval "set" | grep '__inc_' | sed -e 's/=.*$//' | 
+    while read var
+    do
+        eval value="\$${var}"
+        echo "Sourced: ${ZENV}/${value}"
+    done
+}

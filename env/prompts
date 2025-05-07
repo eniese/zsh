@@ -1,0 +1,13 @@
+setopt prompt_subst
+
+prERR="%(?..%{${fbRED}${BLINK}%}${uDE}ERROR${uDE}%{$cRESET%} )"
+prDIRlarge="%{$fGRAY%}[%{$fGREEN%}%~%{$fGRAY%}]%{$cRESET%}"
+prDIRtrunc="%{$fGRAY%}[%{$fGREEN%}%4d%{$fGRAY%}]%{$cRESET%}"
+prTIME="%{$fBLUE%}%T %{$cRESET%}"
+prPROMPT="%{${fbYELLOW}%}${uPROMPT}%{$cRESET%}"
+
+# prompt with (truncated) path in prompt
+PROMPT1=$'${prTIME}${prERR}${prDIRtrunc}$(git_branch) $prPROMPT '
+# multiline prompt with full path on first line
+PROMPT2=$'${prDIRlarge}${uCR}${prTIME}${prERR}$(git_branch) $prPROMPT '
+

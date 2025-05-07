@@ -1,0 +1,80 @@
+# This zsh/bash function reads a series of lines from STDIN. It expects every
+# line to contain a single number. It can calculate certain "metrics" for
+# those numbers:
+#
+# count [-l] [min] [max] [avg] [tot] [num]
+#
+# -l : shows label for each metric (nice for humans, not for scripts)
+# min: determines the minimum value of the list
+# max: determines the maximum value of the list
+# avg: determines the average of the list
+# tot: determines the total (sum) of the list
+# num: determines the amount of numbers on the list
+#
+# If you don't specify any option it will do all including -l for labels
+#
+count() {
+    set -o localoptions
+    set -o rematchpcre
+
+    read -n line
+    if [[ ! $line =~ '^[\d.,]+$' ]]; then
+        echo "No numerical value"
+        return 1
+    fi
+    (( max = min = total = line ))
+    (( items = 1 ))
+    while read -n line
+    do
+        if [[ $line =~ '^[\d.,]+$' ]]; then
+            (( total += line ))
+            (( min = (line < min) ? line : min ))
+            (( max = (line > max) ? line : max ))
+            (( items++ ))
+        fi
+    done
+    if (( items == 0 )); then
+        echo "no items counted"
+        return 1
+    fi
+    (( avg = total / items ))
+    sep=''
+    lMin=''
+    lMax=''
+    lAvg=''
+    lTot=''
+    lNum=''
+    [ $# = 0 ] && set -- -l min max avg tot num
+    while [ $# -gt 0 ];
+    do
+        case $1 in
+            -l)
+                lMin='Min:'
+                lMax='Max:'
+                lAvg='Avg:'
+                lTot='Tot:'
+                lNum='Num:'
+                shift       # don't change seperator: bail out
+                continue    # next while-loop iteration (bail out)
+                ;;    
+            min)
+                print -n "${sep}${lMin}${min}"
+                ;;
+            max)
+                print -n "${sep}${lMax}${max}"
+                ;;
+            avg)
+                print -n "${sep}${lAvg}${avg}"
+                ;;
+            tot)
+                print -n "${sep}${lTot}${total}"
+                ;;
+            num)
+                print -n "${sep}${lNum}${items}"
+                ;;
+        esac
+        shift
+        sep="    "
+    done
+    print ""
+}

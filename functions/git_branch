@@ -1,0 +1,10 @@
+git_branch () {
+    branch=$(git branch --no-color --show-current 2>/dev/null)
+    if [ ! -z "$branch" ]; then
+        if [ ! -z "${ZSH_NAME}" ]; then
+            echo "%{${fYELLOW}%}$uLB%{${fCYAN}%}${branch}%{${fYELLOW}%}$uRB%{${cRESET}%}"
+        else
+            echo "${fYELLOW}$uLB${fbCYAN}${branch}${fYELLOW}$uRB${cRESET}"
+        fi
+    fi
+}

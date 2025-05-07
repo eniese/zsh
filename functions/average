@@ -1,0 +1,19 @@
+average() {
+    set -o localoptions
+    set -o rematchpcre
+    count=0
+    items=0
+    while read -n line
+    do
+        if [[ $line =~ '^[\d.,]+$' ]]; then
+            (( count += line ))
+            (( items++ ))
+        fi
+    done
+    if (( items > 0 )); then
+        (( avg = count / items ))
+        echo "$avg"
+    else
+        echo "no items counted"
+    fi
+}
