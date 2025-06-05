@@ -1,0 +1,21 @@
+# This function is intended to be used for the prompt.
+# It will tell you when a Python virtual environment is available (defaults to .venv)
+# It will show an activated Virtual Environment so the user is constantly
+# reminded that a virutal environment is activated
+
+venv_enabled()
+{
+    VENV_DIR=${VENV_DIR:-.venv}
+    msg=''
+    dir=''
+    if [ ! -z "${VIRTUAL_ENV}" ]; then
+        dir=$VIRTUAL_ENV
+        if [ "$PWD/$VENV_DIR" != "$VIRTUAL_ENV" -a -f "$PWD/$VENV_DIR/bin/activate" ]; then
+            msg="${fbRED}This directory contains a ${fbYELLOW}DIFFERENT{$fbRED} Virtual Environment, please activate:$uCR${fGRAY}. ./${VENV_DIR}/bin/activate"
+        fi
+    elif [ -f "$PWD/$VENV_DIR/bin/activate" ]; then
+        msg="${fbRED}This directory contains a Virtual Environment, please activate:${uCR}${fGRAY}. ./$VENV_DIR/bin/activate"
+    fi
+    [ ! -z "$msg" ] && echo "$msg$cRESET$uCR"
+    [ ! -z "$dir" ] && echo "${fbGREEN}$uLB${fGRAY}$dir${fbGREEN}$uRB$cRESET$uCR"
+}
