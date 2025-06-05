@@ -11,4 +11,4 @@ PROMPT1=$'${prTIME}${prERR}${prDIRtrunc}$(git_branch) $prPROMPT '
 # multiline prompt with full path on first line
 PROMPT2=$'${prDIRlarge}${uCR}${prTIME}${prERR}$(git_branch) $prPROMPT '
 # multiline prompt with virtual environment on first line
-PROMPT3=$'$(venv_enabled)${uCR}${prTIME}${prERR}${prDIRtrunc}$(git_branch) $prPROMPT '
+PROMPT3=$'$(venv_enabled)${prTIME}${prERR}${prDIRtrunc}$(git_branch) $prPROMPT '
