@@ -3,7 +3,7 @@ This is my personal zsh configuration. It contains a few definitions I like and 
 
 To use this you best clone this (or fork it and clone your own fork) to your home directory in a directory called .zsh
 ```
-git clone _url_ ~/.zsh
+git clone https://github.com/eniese/zsh.git ~/.zsh
 ```
 
 To properly initialize some environment variables create a file: ~/.zshenv
